@@ -1,0 +1,39 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+    font-family: Oxygen, sans-serif;
+    margin: 2rem;
+  }
+.Header{
+  background-color: pink;
+  padding: 20px;
+}
+.head_button{
+  font-size: 20px;
+  padding: 10px;
+  padding-bottom: 10px;
+  gap: 1rem;
+  background-color:cornsilk;
+}
+  .wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 16rem));
+    gap: 8rem;
+    justify-content: center;
+  }
+.cards_div{
+  padding-bottom: 55px;
+  text-align: center; 
+}
+.Card_button{
+  background-color: brown;
+  font-size:20px;
+  cursor:pointer; 
+  padding: 10px;
+}

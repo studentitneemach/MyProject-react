@@ -1,0 +1,111 @@
+import React, { useEffect, useState } from "react";
+import Data from './CardsData.json';
+import './Cards.css';
+import { FaPlusCircle, FaMinusCircle } from 'react-icons/fa';
+const PAGE_PRODUCTS = 'products';
+const PAGE_CARD = 'cart';
+const PAGE_PRECARDS = 'lastcheckcards';
+
+export const ProfileData = () => {
+  const [Cards, setCards] = useState([])
+  const [Page, setPage] = useState(PAGE_PRODUCTS)
+  const [products] = useState(Data);
+  const [LastCard, setLastCard] = useState([])
+
+
+
+  const addToCart = (product) => {
+    setCards([...Cards, { ...product }])
+    localStorage.setItem("Cards", JSON.stringify(Cards));
+    // if (Cards.length <= 4) {
+    //   setCards([...Cards, { ...product }])
+    //   localStorage.setItem("Cards", JSON.stringify(Cards,10));
+    // } else return alert('You Add Cards Only 5');
+  }
+
+  // const removeToCart = (productRemove) =>  setCards(Cards.filter((products) => console.log(products === productRemove )//products !== productRemove 
+  // ));
+  const navigetTo = (nextPage) => setPage(nextPage);
+
+  // const renderProduct = () => (
+  //   <> {
+  //     products.map((product, idx) => <div key={idx}>
+  //       <img src={product.url} alt={product.id} height='200px' width='300px' />
+  //       <h3>{product.title}</h3>
+  //       <h5>{product.content}</h5><br />
+  //       <button className="Card_button"><FaPlusCircle onClick={() => addToCart(product)} /></button>
+  //     </div>)}
+  //   </>
+  // )
+
+  // const renderCards = () => {
+  //  return <>{
+  //     Cards.map((card, idx) => <div key={idx} >
+  //       <img src={card.url} alt={card.id} height='200px' width='300px' />
+  //       <h3>{card.title}</h3>
+  //       <h5>{card.content}</h5><br />
+  //       <button className="Card_button"><FaMinusCircle onClick={() => removeToCart(card)} /></button>
+  //     </div>)
+  //   }</>
+  // }
+
+const data = ()=>{
+  let a = 0
+  console.log(a+1)
+}
+  const renderProduct = () => (
+    <> {
+          products.map((product, idx) => <div key={idx}>
+            <img src={product.url} alt={product.id} height='200px' width='300px' />
+            <h3>{product.title}</h3>
+            <h5>{product.content}</h5><br />
+            <button className="Card_button"><FaPlusCircle onClick={() => addToCart(product)} /></button>
+            <button className="Card_button"><FaMinusCircle onClick={()=>data(product)} /></button>
+          </div>)}
+        </>
+      
+      )
+      const renderCards = () => { 
+        return <>{
+           Cards.map((card, idx) => <div key={idx} >
+             <img src={card.url} alt={card.id} height='200px' width='300px' />
+             <h3>{card.title}</h3>
+             <h5>{card.content}</h5><br />
+             {/* <button className="Card_button"><FaMinusCircle onClick={() => removeToCart(card)} /></button> */}
+           </div>)
+         }</>
+       }
+
+  useEffect(() => {
+    const saved = localStorage.getItem("Cards");
+    const initialValue = JSON.parse(saved);
+    setLastCard(initialValue)
+  }, [])
+
+  const renderLastCards=()=> {
+    if (LastCard == null) return 'Nothing Last Check Cards';
+    else return <>
+      {
+        LastCard.map((last, idx) => <div key={idx}>
+          <img src={last.url} alt={last.id} height='200px' width='300px' />
+          <h3>{last.title}</h3>
+          <h5>{last.content}</h5>
+        </div>)
+      }</>
+  }
+
+  return <>
+    <header className="Header">
+      <button className="head_button" style={{ marginRight: '16px' }} onClick={() => navigetTo(PAGE_PRODUCTS)}>View To Product {Cards.length}  </button>
+      {/* <button className="head_button" style={{ marginRight: '16px' }} onClick={() => navigetTo(PAGE_CARD)}>Go To Card  {Cards.length}</button> */}
+      <button className="head_button" onClick={() => navigetTo(PAGE_PRECARDS)}>Last Check Cards {LastCard.length || null}</button>
+    </header>
+    <br />
+    <div className="wrapper">
+      {Page === PAGE_PRODUCTS && renderProduct() }
+      {/* {Page === PAGE_PRODUCTS && renderCards()} */}
+      {/* {Page === PAGE_CARD && renderCards()} */}
+      {Page === PAGE_PRECARDS && renderLastCards()}
+    </div>
+  </>
+}
